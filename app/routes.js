@@ -27,14 +27,25 @@ module.exports = function(app, passport) {
 
   app.get('/glitches', isLoggedIn, getGlitches);
 
-  // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect : '/profile', // redirect to the secure profile section
     failureRedirect : '/signup', // redirect back to the signup page if there is an error
     failureFlash : true // allow flash messages
   }));   
 
-  // process the login form
+  app.post('/signupApp', function(req, res, next) {
+    passport.authenticate('local-signup-app', function(err, user, info) {
+      if (err) { return next(err); }
+      if (!user) { return res.json({ 'status' : info }); }
+      if (user) { 
+        req.logIn(user, function(err) {
+          if (err) { return next(err); }
+          return res.json({ 'status' : { 'name' : 'success', 'message' : 'Registration successful.' } });
+        });
+      }
+    })(req, res, next);
+  });   
+
   app.post('/login', passport.authenticate('local-login', {
     successRedirect : '/profile', // redirect to the secure profile section
     failureRedirect : '/login', // redirect back to the signup page if there is an error
