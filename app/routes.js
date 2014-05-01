@@ -40,7 +40,20 @@ module.exports = function(app, passport) {
       if (user) { 
         req.logIn(user, function(err) {
           if (err) { return next(err); }
-          return res.json({ 'status' : { 'name' : 'success', 'message' : 'Registration successful.' } });
+          return res.json({ 'status' : { 'name' : 'Success', 'message' : 'Registration successful.' } });
+        });
+      }
+    })(req, res, next);
+  });   
+
+  app.post('/loginApp', function(req, res, next) {
+    passport.authenticate('local-login-app', function(err, user, info) {
+      if (err) { return next(err); }
+      if (!user) { return res.json({ 'status' : info }); }
+      if (user) { 
+        req.logIn(user, function(err) {
+          if (err) { return next(err); }
+          return res.json({ 'status' : { 'name' : 'Success', 'message' : 'Login successful.' } });
         });
       }
     })(req, res, next);
