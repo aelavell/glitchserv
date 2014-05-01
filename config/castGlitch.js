@@ -10,21 +10,20 @@ module.exports = function(req, res) {
     if (!err) {
       if (targetWizard !== null) {
         if (isValidGlitch(req)) {
-          var date = new Date();
           var glitch = new Glitch();
           glitch.sourceWizard = req.user.id;
           glitch.targetWizard = targetWizard.id;
 
-          var dirPath = util.format('%s/data/%s/%s', rootdir(), glitch.sourceWizard, glitch.targetWizard);
-          
-          var path;
-          if (req.files.image.type === 'image/jpeg') {
-            path = util.format('%s/%s.jpg', dirPath, date.getTime());
-          }
-          else {
-            path = util.format('%s/%s.gif', dirPath, date.getTime());
-          }
-          glitch.resourcePath = path;
+          var name = getGlitchName(req); 
+          var relPath = util.format('data/%s/%s', glitch.sourceWizard, glitch.targetWizard);
+          var dirPath = util.format('%s/%s', rootdir(), relPath);
+          var path = util.format('%s/%s', dirPath, name);
+          glitch.resourcePath = util.format('%s/%s', relPath, name);
+          console.log(name);
+          console.log(relPath);
+          console.log(dirPath);
+          console.log(path);
+          console.log(glitch.resourcePath);
 
           mkpath(dirPath, function(err) {
             if (err) throw err;
@@ -51,6 +50,18 @@ module.exports = function(req, res) {
     }
   });
   res.redirect('/profile');
+}
+
+var getGlitchName = function(req) {
+  var date = new Date();
+  var name;
+  if (req.files.image.type === 'image/jpeg') {
+    name = util.format('%s.jpg', date.getTime());
+  }
+  else {
+    name = util.format('%s.gif', date.getTime());
+  }
+  return name;
 }
 
 var isValidGlitch = function(req) {
