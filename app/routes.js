@@ -1,5 +1,6 @@
 var castGlitch = require('../config/castGlitch');
 var getGlitches = require('../config/getGlitches');
+var signS3 = require('../config/signS3');
 
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
@@ -12,6 +13,10 @@ module.exports = function(app, passport) {
 
   app.get('/signup', function(req, res) {
     res.render('signup.ejs', { message: req.flash('signupMessage') });
+  });
+
+  app.get('/account', function(req, res) {
+    res.render('account.ejs');
   });
 
   app.get('/profile', isLoggedIn, function(req, res) {
@@ -66,6 +71,8 @@ module.exports = function(app, passport) {
   }));
 
   app.post('/glitch', isLoggedIn, castGlitch);
+
+  app.get('/sign-s3', isLoggedIn, signS3);
 };
 
 function isLoggedIn(req, res, next) {

@@ -6,7 +6,7 @@ var mkpath = require('mkpath');
 var rootdir = require('../rootdir');
 
 module.exports = function(req, res) {
-  User.findOne({ 'local.email' : req.param('target_wizard') } , function(err, targetWizard) {
+  User.findOne({ 'email' : req.param('target_wizard') } , function(err, targetWizard) {
     if (!err) {
       if (targetWizard !== null) {
         if (isValidGlitch(req)) {

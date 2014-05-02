@@ -8,6 +8,7 @@ var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
+var path     = require('path');
 
 var configDB = require('./config/database.js');
 
@@ -22,9 +23,11 @@ app.configure(function() {
   app.use(express.logger('dev')); // log every request to the console
   app.use(express.cookieParser()); // read cookies (needed for auth)
   app.use(express.bodyParser()); // get information from html forms
-  app.use('/data', express.static(__dirname + '/data'));
+  app.use('/data', express.static(path.join(__dirname, 'data')));
+  app.use(express.static(path.join(__dirname, 'public')));
 
   app.set('view engine', 'ejs'); // set up ejs for templating
+  app.set('views', path.join(__dirname, 'views')); 
 
   // required for passport
   app.use(express.session({ secret: 'yolomission420thepowerhouseoftruejustice' })); // session secret
