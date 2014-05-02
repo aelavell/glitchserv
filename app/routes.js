@@ -72,7 +72,7 @@ module.exports = function(app, passport) {
 
   app.post('/glitch', isLoggedIn, castGlitch);
 
-  app.get('/sign-s3', isLoggedIn, signS3);
+  app.get('/sign-s3', signS3);
 };
 
 function isLoggedIn(req, res, next) {
