@@ -2,6 +2,8 @@ var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 var S3_BUCKET = process.env.S3_BUCKET
 
+var crypto = require('crypto');
+
 module.exports = function(req, res) {
     var object_name = req.query.s3_object_name;
     var mime_type = req.query.s3_object_type;
