@@ -28,10 +28,11 @@ module.exports = function(req, res) {
         glitch.targetWizard = targetWizard.id;
 
         var name = getGlitchName(req); 
-        var relPath = util.format('https://s3.amazonaws.com/glitchwizard/%s/%s', glitch.sourceWizard, glitch.targetWizard);
-        var dirPath = util.format('%s/%s', rootdir(), relPath);
-        var path = util.format('%s/%s', dirPath, name);
-        glitch.resourcePath = util.format('%s/%s', relPath, name);
+        var relPath = util.format('%s/%s/%s', glitch.sourceWizard, glitch.targetWizard, name);
+        var path = util.format('https://s3.amazonaws.com/glitchwizard/%s', relPath);
+        console.log(relPath);
+        console.log(path);
+        glitch.resourcePath = path;
 
         glitch.save(function(err) {
             if (err) {
@@ -49,7 +50,7 @@ module.exports = function(req, res) {
                 'name' : 'Success',
                 'message' : 'Glitch successfully entered into database.'
                },
-                'filename' : name 
+                'filename' : relPath
               }
               );
             }
