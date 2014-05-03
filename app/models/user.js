@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({
   username : String,
   email : String,
   password : String,
-  towerCoordinates : Array,
+  latitude : Number,
+  longitude : Number,
   registrationTimestamp : { type : Date, default : Date.now }
 });
 

@@ -1,5 +1,6 @@
 var castGlitch = require('../config/castGlitch');
 var getGlitches = require('../config/getGlitches');
+var allWizards = require('../config/allWizards');
 var signS3 = require('../config/signS3');
 
 module.exports = function(app, passport) {
@@ -73,6 +74,8 @@ module.exports = function(app, passport) {
   app.post('/glitch', isLoggedIn, castGlitch);
 
   app.get('/sign_s3', signS3);
+
+  app.get('/wizards', isLoggedIn, allWizards);
 };
 
 function isLoggedIn(req, res, next) {

@@ -54,6 +54,8 @@ module.exports = function(passport) {
           newUser.email    = email;
           newUser.password = newUser.generateHash(password);
           newUser.username = req.param('username');
+          newUser.latitude = req.param('latitude');
+          newUser.longitude = req.param('longitude');
 
           // save the user
           newUser.save(function(err) {

@@ -1,4 +1,3 @@
-var User = require('../app/models/user');
 var Glitch = require('../app/models/glitch');
 var _ = require('underscore');
 
