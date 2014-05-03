@@ -46,7 +46,10 @@ module.exports = function(app, passport) {
       if (user) { 
         req.logIn(user, function(err) {
           if (err) { return next(err); }
-          return res.json({ 'status' : { 'name' : 'Success', 'message' : 'Registration successful.' } });
+          return res.json({ 
+            'status' : { 'name' : 'Success', 'message' : 'Registration successful.' },
+            '_id' : user._id
+          });
         });
       }
     })(req, res, next);
