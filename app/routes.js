@@ -1,5 +1,6 @@
 var castGlitch = require('../config/castGlitch');
 var getGlitches = require('../config/getGlitches');
+var allGlitches = require('../config/allGlitches');
 var allWizards = require('../config/allWizards');
 var signS3 = require('../config/signS3');
 
@@ -32,6 +33,8 @@ module.exports = function(app, passport) {
   });
 
   app.get('/glitches', isLoggedIn, getGlitches);
+
+  app.get('/allGlitches', allGlitches);
 
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect : '/profile', // redirect to the secure profile section
