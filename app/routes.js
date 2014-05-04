@@ -2,6 +2,7 @@ var castGlitch = require('../config/castGlitch');
 var getGlitches = require('../config/getGlitches');
 var allGlitches = require('../config/allGlitches');
 var allWizards = require('../config/allWizards');
+var glitchfeed = require('../app/controllers/glitchfeed');
 var signS3 = require('../config/signS3');
 
 module.exports = function(app, passport) {
@@ -26,6 +27,8 @@ module.exports = function(app, passport) {
       user: req.user
     });
   });
+
+  app.get('/glitchfeed', glitchfeed);
 
   app.get('/logout', function(req, res) {
     req.logout();
