@@ -7,7 +7,6 @@ module.exports = function(req, res) {
   .sort('-timestamp')
   .exec(  
     function(err, glitches) {
-      
       res.render('glitchfeed.ejs', { 'glitches' : glitches });
     }
   );

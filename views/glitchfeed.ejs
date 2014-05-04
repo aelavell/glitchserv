@@ -4,21 +4,21 @@
   <title>GLITCHWIZARD</title>
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+  <link rel="stylesheet" href="/stylesheets/thumbnailgrid.css">
+  <link rel="stylesheet" href="/stylesheets/glitchfeed.css">
   <style>
     body    { padding-top:80px; }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>GLITCHWIZARD</h1><h2> Another Project by <a href="http://toughguymountain.com">Tough Guy Mountain</a></h2>
-  <div class="jumbotron text-center">
-    <ul>
+  <h1>GLITCHWIZARD</h1>
+  <h2> Another Project by <a href="http://toughguymountain.com">Tough Guy Mountain</a></h2>
+  Glitchwizard is, as of May 3rd 2014, in a private beta. Check out what our wizards have been glitching at each other!
+  <br />
       <% for(var i = 0; i < glitches.length; i++) {%>
-        <li><img src="<%= glitches[i].resourcePath %>"></li>
+      <a href="<%= glitches[i].resourcePath %>"><img class="box" src="<%= glitches[i].resourcePath %>"></a>
       <% } %>
-    </ul>
-  </div>
-
 </div>
 </body>
 </html>

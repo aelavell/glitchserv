@@ -1,0 +1,24 @@
+#container {
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+}
+
+.box {
+    width: 240px;
+    height: 240px;
+    background:#ccc;
+    vertical-align: top;
+    display: inline-block;
+    *display: inline;
+    margin:10px;
+    zoom: 1
+}
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0
+}
+
+
