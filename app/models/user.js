@@ -11,7 +11,7 @@ var userSchema = mongoose.Schema({
   latitude : Number,
   longitude : Number,
   registrationTimestamp : { type : Date, default : Date.now },
-  apnTokens : Array
+  apnToken : String
 });
 
 // methods ======================

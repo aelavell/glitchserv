@@ -11,7 +11,8 @@ var apnConnection = new apn.Connection({
 
 exports.registerToken = function(req, res) {
   User.findOne({ '_id' : req.user.id }, function(err, wizard) {
-    wizard.apnTokens.push(req.param('token'));
+    //wizard.apnTokens.push(req.param('token'));
+    wizard.apnToken = req.param('token');
     res.json({ 
       'status' : { 'name' : 'Success', 'message' : 'Token successfully registered.' },
     });
@@ -19,8 +20,9 @@ exports.registerToken = function(req, res) {
 }
 
 exports.sendAPN = function(sourceWizard, targetWizard) {
-  if (targetWizard.apnTokens !== null) {
-    _.each(targetWizard.apnTokens, function(token) {
+  if (targetWizard.apnToken !== null) {
+    var token = targetWizard.apnToken;
+    //_.each(targetWizard.apnTokens, function(token) {
       var device = new apn.Device(token);
       
       var note = new apn.Notification();
@@ -31,6 +33,6 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
       note.payload = {'messageFrom': sourceWizard.username};
 
       apnConnection.pushNotification(note, device);
-    });
+    //});
   }
 }
