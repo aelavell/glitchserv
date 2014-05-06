@@ -47,7 +47,7 @@ module.exports = function(req, res) {
               throw err;
             }
             else {
-              apns.sendAPN(glitch.sourceWizard, glitch.targetWizard); 
+              //apns.sendAPN(glitch.sourceWizard, glitch.targetWizard); 
 
               res.json({ 'status' : {
                 'name' : 'Success',
