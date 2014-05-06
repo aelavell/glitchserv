@@ -10,7 +10,8 @@ var userSchema = mongoose.Schema({
   password : String,
   latitude : Number,
   longitude : Number,
-  registrationTimestamp : { type : Date, default : Date.now }
+  registrationTimestamp : { type : Date, default : Date.now },
+  apnTokens : Array
 });
 
 // methods ======================

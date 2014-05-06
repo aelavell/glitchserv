@@ -4,6 +4,7 @@ var util = require('util');
 var fs = require('fs');
 var mkpath = require('mkpath');
 var rootdir = require('../rootdir');
+var apns = require('./apns');
 
 module.exports = function(req, res) {
   User.findOne({ '_id' : req.param('target_wizard') } , function(err, targetWizard) {
@@ -46,6 +47,8 @@ module.exports = function(req, res) {
               throw err;
             }
             else {
+              apns.sendAPN(glitch.sourceWizard, glitch.targetWizard); 
+
               res.json({ 'status' : {
                 'name' : 'Success',
                 'message' : 'Glitch successfully entered into database.'

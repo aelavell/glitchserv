@@ -4,7 +4,7 @@ var allGlitches = require('../config/allGlitches');
 var allWizards = require('../config/allWizards');
 var glitchfeed = require('../app/controllers/glitchfeed');
 var signS3 = require('../config/signS3');
-var sendAPN = require('../config/sendAPN');
+var apns = require('../config/apns');
 
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
@@ -91,9 +91,7 @@ module.exports = function(app, passport) {
 
   app.get('/wizards', isLoggedIn, allWizards);
 
-  app.get('/push', function(req, res) { 
-    sendAPN("d958584f fc35ab63 8689d198 ab7219a8 92080e6f 7a9df540 1c46a152 1ff6e853");
-  });
+  app.post('/registerAPNSToken', isLoggedIn, apns.registerToken);
 };
 
 function isLoggedIn(req, res, next) {
