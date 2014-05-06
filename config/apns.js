@@ -46,5 +46,4 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
       apnConnection.pushNotification(note, device);
     //});
     }
-  }
 }
