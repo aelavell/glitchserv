@@ -29,9 +29,10 @@ exports.registerToken = function(req, res) {
 }
 
 exports.sendAPN = function(sourceWizard, targetWizard) {
+  console.log("sendAPN");
   if (targetWizard.apnToken !== null && targetWizard.apnToken != '') {
-    try {
       var token = targetWizard.apnToken;
+      console.log(token);
     //_.each(targetWizard.apnTokens, function(token) {
       var device = new apn.Device(token);
       
@@ -45,6 +46,5 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
       apnConnection.pushNotification(note, device);
     //});
     }
-    catch(e) {}
   }
 }
