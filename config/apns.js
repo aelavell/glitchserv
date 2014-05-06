@@ -13,8 +13,17 @@ exports.registerToken = function(req, res) {
   User.findOne({ '_id' : req.user.id }, function(err, wizard) {
     //wizard.apnTokens.push(req.param('token'));
     wizard.apnToken = req.param('token');
-    res.json({ 
-      'status' : { 'name' : 'Success', 'message' : 'Token successfully registered.' },
+    wizard.save(function(err) {
+      if (err) {
+        res.json({ 
+          'status' : { 'name' : 'TokenDatabaseError', 'message' : 'Could not save token to the database.' },
+        });
+      }
+      else {
+        res.json({ 
+          'status' : { 'name' : 'Success', 'message' : 'Token successfully registered.' },
+        });
+      }
     });
   });
 }
