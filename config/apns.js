@@ -20,8 +20,9 @@ exports.registerToken = function(req, res) {
 }
 
 exports.sendAPN = function(sourceWizard, targetWizard) {
-  if (targetWizard.apnToken !== null) {
-    var token = targetWizard.apnToken;
+  if (targetWizard.apnToken !== null && targetWizard.apnToken != '') {
+    try {
+      var token = targetWizard.apnToken;
     //_.each(targetWizard.apnTokens, function(token) {
       var device = new apn.Device(token);
       
@@ -30,9 +31,11 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
       note.badge = 420;
       note.sound = 'ping.aiff';
       note.alert = util.format('%s has cast a glitch on you!', sourceWizard.username);
-      note.payload = {'messageFrom': sourceWizard.username};
+      note.payload = {'messageFrom': sourceWizard.username };
 
       apnConnection.pushNotification(note, device);
     //});
+    }
+    catch(e) {}
   }
 }
