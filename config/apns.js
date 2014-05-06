@@ -10,7 +10,7 @@ var apnConnection = new apn.Connection({
 });
 
 exports.registerToken = function(req, res) {
-  User.findOne({ '_id' : req.user.id }, function(wizard) {
+  User.findOne({ '_id' : req.user.id }, function(err, wizard) {
     wizard.apnTokens.push(req.param('token'));
     res.json({ 
       'status' : { 'name' : 'Success', 'message' : 'Token successfully registered.' },
