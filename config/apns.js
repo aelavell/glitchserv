@@ -1,6 +1,7 @@
 var apn = require('apn');
 var User = require('../app/models/user');
 var _ = require('underscore');
+var util = require('util');
 
 var apnConnection = new apn.Connection({
   cert: process.env.APNS_CERT,

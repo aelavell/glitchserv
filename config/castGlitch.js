@@ -47,7 +47,7 @@ module.exports = function(req, res) {
               throw err;
             }
             else {
-              apns.sendAPN(req.user.id, targetWizard); 
+              apns.sendAPN(req.user, targetWizard); 
 
               res.json({ 'status' : {
                 'name' : 'Success',
