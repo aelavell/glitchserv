@@ -38,7 +38,7 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
       
       var note = new apn.Notification();
       note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-      note.badge = 420;
+      note.badge = 1;
       note.sound = 'ping.aiff';
       note.alert = util.format('%s has cast a glitch on you!', sourceWizard.username);
       note.payload = {'messageFrom': sourceWizard.username };
