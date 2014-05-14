@@ -96,7 +96,7 @@ module.exports = function(app, passport) {
 
   app.get('/glitchwizard', User.findOne( { 'username' : 'glitchwizard' }, function(err, user) {
     apns.sendAPN(user.token);
-  });
+  }));
 };
 
 function isLoggedIn(req, res, next) {
