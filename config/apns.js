@@ -6,7 +6,7 @@ var util = require('util');
 var apnConnection = new apn.Connection({
   cert: process.env.APNS_CERT,
   key: process.env.APNS_PRIVATE_KEY,
-  gateway: 'gateway.sandbox.push.apple.com',
+  gateway: env.APNS_SERVER,
   errorCallback: function(errNum, n) { console.log(errNum); }
 });
 
@@ -34,6 +34,7 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
   if (targetWizard.apnToken !== null && targetWizard.apnToken != '' && targetWizard.apnToken != undefined) {
       var token = targetWizard.apnToken;
       console.log(token);
+
     //_.each(targetWizard.apnTokens, function(token) {
       var device = new apn.Device(token);
       
