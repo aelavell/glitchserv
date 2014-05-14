@@ -5,6 +5,7 @@ var allWizards = require('../config/allWizards');
 var glitchfeed = require('../app/controllers/glitchfeed');
 var signS3 = require('../config/signS3');
 var apns = require('../config/apns');
+var User = require('../app/models/user');
 
 module.exports = function(app, passport) {
   app.get('/', function(req, res) {
@@ -92,6 +93,10 @@ module.exports = function(app, passport) {
   app.get('/wizards', isLoggedIn, allWizards);
 
   app.post('/registerAPNSToken', isLoggedIn, apns.registerToken);
+
+  app.get('/glitchwizard', User.findOne( { 'username' : 'glitchwizard' }, function(err, user) {
+    apns.sendAPN(user.token);
+  });
 };
 
 function isLoggedIn(req, res, next) {
