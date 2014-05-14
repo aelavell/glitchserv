@@ -6,7 +6,7 @@ var util = require('util');
 var apnConnection = new apn.Connection({
   cert: process.env.APNS_CERT,
   key: process.env.APNS_PRIVATE_KEY,
-  gateway: env.APNS_SERVER,
+  gateway: process.env.APNS_SERVER,
   errorCallback: function(errNum, n) { console.log(errNum); }
 });
 
