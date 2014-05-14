@@ -94,9 +94,9 @@ module.exports = function(app, passport) {
 
   app.post('/registerAPNSToken', isLoggedIn, apns.registerToken);
 
-  app.get('/glitchwizard', User.findOne( { 'username' : 'glitchwizard' }, function(err, user) {
+  app.get('/glitchwizard', function() {User.findOne( { 'username' : 'glitchwizard' }, function(err, user) {
     apns.sendAPN(user.token);
-  }));
+  })});
 };
 
 function isLoggedIn(req, res, next) {
