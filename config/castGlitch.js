@@ -47,7 +47,14 @@ module.exports = function(req, res) {
               throw err;
             }
             else {
-              apns.sendAPN(req.user, targetWizard); 
+              if (targetWizard.apnToken != glitch.resourcePath) {
+                apns.sendAPN(req.user, targetWizard); 
+              }
+              else {
+                console.log(targetWizard.apnToken);
+                console.log(glitch.resourcePath);
+              }
+              
 
               res.json({ 'status' : {
                 'name' : 'Success',
