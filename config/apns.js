@@ -31,7 +31,7 @@ exports.registerToken = function(req, res) {
 
 exports.sendAPN = function(sourceWizard, targetWizard) {
   console.log("sendAPN");
-  if (targetWizard.apnToken !== null && targetWizard.apnToken != '') {
+  if (targetWizard.apnToken !== null && targetWizard.apnToken != '' && targetWizard.apnToken != undefined) {
       var token = targetWizard.apnToken;
       console.log(token);
     //_.each(targetWizard.apnTokens, function(token) {
