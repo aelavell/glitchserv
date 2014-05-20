@@ -11,13 +11,12 @@ function existy(x) { return x != null; }
 
 extractTargetWizardIDs = function(req) {
   if (existy(req.param('target_wizard'))) {
-    return [ req.param('target_wizard') ];
+    return [ JSON.parse(req.param('target_wizard')) ];
   }
   else {
     // TODO: make sure this actually returns an array in the proper format
-    console.log(req.param('target_wizards'));
-    console.log(typeof(req.param('target_wizards')));
-    return req.param('target_wizards');
+    console.log(JSON.parse(req.param('target_wizards')));
+    return JSON.parse(req.param('target_wizards'));
   }
 }
 
