@@ -16,6 +16,7 @@ extractTargetWizardIDs = function(req) {
   else {
     // TODO: make sure this actually returns an array in the proper format
     console.log(req.param('target_wizards'));
+    console.log(typeof(req.param('target_wizards')));
     return req.param('target_wizards');
   }
 }
