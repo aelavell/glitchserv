@@ -8,40 +8,55 @@ module.exports = function(req, res) {
   var lastID = req.param('last_id');
 
   var callback = function(err, glitches) {
-    res.json(glitches);
+    if (!err) {
+      res.json(glitches);
+    }
+    else {
+      res.json({
+        'status' : { 'name' : 'DatabaseError', 'message' : err }
+      });
+      console.error(err);
+    }
   }
 
   if (utility.existy(lastID)) {  
     Glitch.findOne( { '_id' : lastID }, function(err, glitch) {
       if (!err) {
         if (utility.existy(glitch)) {
-          console.log("1");
-          Paginate(glitch.timestamp, callback);
+          Paginate(glitch.timestamp, callback, false);
         }
         else {
-          console.log("2");
-          Paginate(new Date(), callback); 
+          Paginate(Date.now, callback, true); 
         }
       }
       else {
         res.json( { 
           'status' : { 'name' : 'DatabaseError', 'message' : err }
         });
-        console.log(err);
+        console.error(err);
       }
     });
   }
   else {
-    console.log("3");
-    Paginate(new Date(), callback);
+    Paginate(new Date, callback, true);
   }
 }
 
-function Paginate(timestamp, callback) {
-  console.log(timestamp);
-  Glitch
-  .find( { 'timestamp' : { '$gt' : timestamp } } )
-  .limit(pageSize)
-  .sort('-timestamp')
-  .exec(callback);
+function Paginate(timestamp, callback, inclusive) {
+  // QUEXTION: why can't I use a variable with the string '$lte' in it in
+  // mongoose's .find?
+  if (inclusive) {
+    Glitch
+    .find( { 'timestamp' : { '$lte' : timestamp } } ) 
+    .limit(pageSize)
+    .sort('-timestamp')
+    .exec(callback);
+  }
+  else {
+    Glitch
+    .find( { 'timestamp' : { '$lt' : timestamp } } ) 
+    .limit(pageSize)
+    .sort('-timestamp')
+    .exec(callback);
+  }
 }
