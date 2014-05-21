@@ -101,5 +101,7 @@ module.exports = function(app, passport) {
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
-  else res.redirect('/');
+  else res.json(
+    { 'status' : { 'name' : 'AuthenticationError', 'message' : 'You are not logged in.' } } 
+  );
 }
