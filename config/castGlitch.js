@@ -6,11 +6,10 @@ var mkpath = require('mkpath');
 var rootdir = require('../rootdir');
 var apns = require('./apns');
 var _ = require('underscore');
-
-function existy(x) { return x != null; }
+var utility = require('../app/utility')
 
 extractTargetWizardIDs = function(req) {
-  if (existy(req.param('target_wizard'))) {
+  if (utility.existy(req.param('target_wizard'))) {
     return [ JSON.parse(req.param('target_wizard')) ];
   }
   else {
