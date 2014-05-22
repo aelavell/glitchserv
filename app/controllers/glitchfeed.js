@@ -1,7 +1,6 @@
 var Glitch = require('../models/glitch'); 
 var utility = require('../utility');
-
-var pageSize = 20;
+var constants = require('../constants');
 
 module.exports = function(req, res) {
   var lastID = req.param('last_id');
@@ -27,7 +26,7 @@ module.exports = function(req, res) {
   Glitch
   //.find( { 'timestamp' : { $gt : lasTimestamp } } )
   .find()
-  .limit(pageSize)
+  .limit(constants.pageSize)
   .sort('-timestamp')
   .exec(  
     function(err, glitches) {

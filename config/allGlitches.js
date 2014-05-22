@@ -1,8 +1,7 @@
 var Glitch = require('../app/models/glitch');
 var _ = require('underscore');
 var utility = require('../app/utility');
-
-var pageSize = 10;
+var constants = require('../app/constants');
 
 module.exports = function(req, res) {
   var lastID = req.param('last_id');
@@ -48,7 +47,7 @@ function Paginate(timestamp, callback, inclusive) {
   if (inclusive) {
     Glitch
     .find( { 'timestamp' : { '$lte' : timestamp } } ) 
-    .limit(pageSize)
+    .limit(constants.pageSize)
     .sort('-timestamp')
     .exec(callback);
   }
