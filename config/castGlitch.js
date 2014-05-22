@@ -9,7 +9,7 @@ var _ = require('underscore');
 var utility = require('../app/utility')
 
 extractTargetWizardIDs = function(req) {
-  if (utility.existy(req.param('target_wizard'))) {
+  if (utility.exists(req.param('target_wizard'))) {
     return [ JSON.parse(req.param('target_wizard')) ];
   }
   else {

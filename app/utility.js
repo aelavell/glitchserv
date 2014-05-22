@@ -1,3 +1,1 @@
-function existy(x) { return x != null; }
-
-exports.existy = existy;
+exports.exists = function(x) { return x != null; }

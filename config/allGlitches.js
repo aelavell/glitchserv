@@ -5,57 +5,55 @@ var constants = require('../app/constants');
 
 module.exports = function(req, res) {
   var lastID = req.param('last_id');
+  var firstID = req.param('first_id');
 
-  var callback = function(err, glitches) {
-    if (!err) {
-      res.json(glitches);
-    }
-    else {
-      res.json({
-        'status' : { 'name' : 'DatabaseError', 'message' : err }
-      });
-      console.error(err);
-    }
-  }
-
-  if (utility.existy(lastID)) {  
-    Glitch.findOne( { '_id' : lastID }, function(err, glitch) {
+  var sendResultOrError = function(err, result) {
       if (!err) {
-        if (utility.existy(glitch)) {
-          Paginate(glitch.timestamp, callback, false);
-        }
-        else {
-          Paginate(Date.now, callback, true); 
-        }
+        res.json(result);
       }
       else {
-        res.json( { 
-          'status' : { 'name' : 'DatabaseError', 'message' : err }
-        });
-        console.error(err);
+        sendError('DatabaseError', err);
       }
-    });
+  }
+
+  var glitchFound = function(err, glitch) {
+    console.log('glicfosad');
+    if (!err) {
+      if (utility.exists(glitch)) {
+        if (utility.exists(lastID)) paginate(sendResultOrError, { 'timestamp' : { $lt : glitch.timestamp } });
+        else paginate(sendResultOrError, { 'timestamp' : { $gt : glitch.timestamp } });
+      }
+      else {
+        paginate(sendResultOrError, { 'timestamp' : { $lte : new Date } });
+      }
+    }
+    else {
+      paginate(sendResultOrError, { 'timestamp' : { $lte : new Date } });
+    }
+  }
+
+  if (utility.exists(lastID)) {  
+    Glitch.findOne({ '_id' : lastID }, glitchFound);
+  }
+  else if (utility.exists(firstID)) {
+    Glitch.findOne({ '_id' : firstID }, glitchFound);
   }
   else {
-    Paginate(new Date, callback, true);
+    paginate(sendResultOrError, { 'timestamp' : { $lte : new Date } });
   }
 }
 
-function Paginate(timestamp, callback, inclusive) {
-  // QUEXTION: why can't I use a variable with the string '$lte' in it in
-  // mongoose's .find?
-  if (inclusive) {
-    Glitch
-    .find( { 'timestamp' : { '$lte' : timestamp } } ) 
-    .limit(constants.pageSize)
-    .sort('-timestamp')
-    .exec(callback);
-  }
-  else {
-    Glitch
-    .find( { 'timestamp' : { '$lt' : timestamp } } ) 
-    .limit(pageSize)
-    .sort('-timestamp')
-    .exec(callback);
-  }
+function sendError(name, message) {
+  res.json( { 
+    'status' : { 'name' : name, 'message' : message }
+  });
+  console.error(err);
+}
+
+function paginate(callback, query) {
+  Glitch
+  .find(query) 
+  .limit(constants.pageSize)
+  .sort('-timestamp')
+  .exec(callback);
 }

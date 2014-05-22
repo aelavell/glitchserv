@@ -5,7 +5,7 @@ var constants = require('../constants');
 module.exports = function(req, res) {
   var lastID = req.param('last_id');
   var lastTimestamp;
-  if (utility.existy(lastID)) {  
+  if (utility.exists(lastID)) {  
     Glitch.findOne( { '_id' : lastID }, function(err, glitch) {
       if (!err) {
         lastTimestamp = glitch.timestamp;
