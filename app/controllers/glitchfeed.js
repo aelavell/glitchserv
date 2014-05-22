@@ -1,7 +1,7 @@
 var Glitch = require('../models/glitch'); 
 var utility = require('../utility');
 
-var pageSize = 10;
+var pageSize = 20;
 
 module.exports = function(req, res) {
   var lastID = req.param('last_id');
