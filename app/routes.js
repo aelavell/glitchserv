@@ -3,6 +3,7 @@ var getGlitches = require('../config/getGlitches');
 var allGlitches = require('../config/allGlitches');
 var allWizards = require('../config/allWizards');
 var glitchfeed = require('../app/controllers/glitchfeed');
+var likeToggle = require('../config/likeToggle');
 var signS3 = require('../config/signS3');
 var apns = require('../config/apns');
 var User = require('../app/models/user');
@@ -94,9 +95,7 @@ module.exports = function(app, passport) {
 
   app.post('/registerAPNSToken', isLoggedIn, apns.registerToken);
 
-  app.get('/glitchwizard', function() {User.findOne( { 'username' : 'glitchwizard' }, function(err, user) {
-    apns.sendAPN(user, user);
-  })});
+  app.post('/likeToggle', isLoggedIn, likeToggle);
 };
 
 function isLoggedIn(req, res, next) {
