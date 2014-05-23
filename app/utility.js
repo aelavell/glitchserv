@@ -2,7 +2,15 @@ var _ = require('underscore');
 
 exports.exists = function(x) { return x != null; }
 
-exports.logAndSendError = function(err, res) {
+exports.fail = function(errorName, message, res) {
+  logAndSendError(statusObject(name, message), res); 
+}
+
+exports.succeed = function(name, message, res) {
+  res.json(statusObject(name, message));
+}
+
+logAndSendError = function(err, res) {
   console.error(err);
   res.json(err);
 }

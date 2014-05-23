@@ -3,7 +3,7 @@ var getGlitches = require('../config/getGlitches');
 var allGlitches = require('../config/allGlitches');
 var allWizards = require('../config/allWizards');
 var glitchfeed = require('../app/controllers/glitchfeed');
-var likeToggle = require('../config/likeToggle');
+var likes = require('../config/likes');
 var signS3 = require('../config/signS3');
 var apns = require('../config/apns');
 var User = require('../app/models/user');
@@ -95,7 +95,9 @@ module.exports = function(app, passport) {
 
   app.post('/registerAPNSToken', isLoggedIn, apns.registerToken);
 
-  app.post('/likeToggle', isLoggedIn, likeToggle);
+  app.post('/likeToggle', isLoggedIn, likes.likeToggle);
+  app.post('/likeCount', isLoggedIn, likes.likeCount);
+  app.post('/likes', isLoggedIn, likes.likes);
 };
 
 function isLoggedIn(req, res, next) {

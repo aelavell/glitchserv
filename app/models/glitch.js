@@ -8,17 +8,35 @@ var glitchSchema = mongoose.Schema({
   targetWizardIDs : Array,
   resourcePath : String,
   timestamp: { type: Date, default: Date.now },
-  likeWizardIDs : Array
+  likes : Array
 });
 
 glitchSchema.methods.toggleLike = function(wizardID) {
-  if (__.exists(likeWizardIDs)) { 
-    if (!_.contains(likeWizardIDs, wizardID)) {
-      likeWizardIDs.push(wizardID);
+  if (__.exists(likes)) { 
+    if (!_.contains(likes, wizardID)) {
+      likes.push(wizardID);
     }
     else {
-      likeWizardIDs = _.without(likeWizardIDs, wizardID);
+      likes = _.without(likes, wizardID);
     }
+  }
+}
+
+glitchSchema.methods.likeCount = function(wizardID) {
+  if (__.exists(likes)) { 
+    return likes.length;
+  }
+  else {
+    return 0;
+  }
+}
+
+glitchSchema.methods.Likes = function() {
+  if (__.exists(likes)) {
+    return likes;
+  }
+  else {
+    return [];
   }
 }
 
