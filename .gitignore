@@ -1,5 +1,5 @@
 *.swp
-
+.env
 data/*
 node_modules/*
 certs/*
