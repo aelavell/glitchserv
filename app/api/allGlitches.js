@@ -1,7 +1,7 @@
-var Glitch = require('../app/models/glitch');
 var _ = require('underscore');
-var utility = require('../app/utility');
-var constants = require('../app/constants');
+var Glitch = require('../models/glitch');
+var utility = require('../utility');
+var constants = require('../config/constants');
 
 module.exports = function(req, res) {
   var lastID = req.param('last_id');
@@ -17,7 +17,6 @@ module.exports = function(req, res) {
   }
 
   var glitchFound = function(err, glitch) {
-    console.log('glicfosad');
     if (!err) {
       if (utility.exists(glitch)) {
         if (utility.exists(lastID)) paginate(sendResultOrError, { 'timestamp' : { $lt : glitch.timestamp } });

@@ -1,4 +1,4 @@
-var User = require('../app/models/user');
+var User = require('../models/user');
 var _ = require('underscore');
 
 module.exports = function(req, res) {

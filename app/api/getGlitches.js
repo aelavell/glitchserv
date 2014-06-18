@@ -1,4 +1,4 @@
-var Glitch = require('../app/models/glitch');
+var Glitch = require('../models/glitch');
 var _ = require('underscore');
 
 module.exports = function(req, res) {

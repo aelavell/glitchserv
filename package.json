@@ -1,5 +1,5 @@
 {
-  "name": "glitchserver",
+  "name": "glitchserv",
   "main": "server.js",
   "version": "0.2.0",
   "dependencies": {
@@ -8,7 +8,6 @@
     "mongoose": "~3.8.1",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
-    "connect-flash": "~0.1.1",
     "bcrypt-nodejs": "latest",
     "mkpath": "0.1.0",
     "underscore": "1.6.0",
@@ -16,5 +15,8 @@
     "crypto": "0.0.3",
     "apn": "^1.5.2",
     "connect-mongo" : "0.3.x"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }

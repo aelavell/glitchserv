@@ -1,6 +1,6 @@
-var apn = require('apn');
-var User = require('../app/models/user');
 var _ = require('underscore');
+var apn = require('apn');
+var User = require('../models/user');
 var util = require('util');
 
 var apnConnection = new apn.Connection({
@@ -27,10 +27,9 @@ exports.registerToken = function(req, res) {
       }
     });
   });
-}
+};
 
 exports.sendAPN = function(sourceWizard, targetWizard) {
-  console.log("sendAPN");
   if (targetWizard.apnToken !== null && targetWizard.apnToken != '' && targetWizard.apnToken != undefined) {
       var token = targetWizard.apnToken;
       console.log(token);
@@ -48,4 +47,4 @@ exports.sendAPN = function(sourceWizard, targetWizard) {
       apnConnection.pushNotification(note, device);
     //});
     }
-}
+};

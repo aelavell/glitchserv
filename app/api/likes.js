@@ -1,5 +1,5 @@
-var Glitch = require('../app/models/glitch');
-var __ = require('../app/utility');
+var Glitch = require('../models/glitch');
+var __ = require('../utility');
 
 exports.likeToggle = function(req, res) {
   var glitchID = req.param('glitch_id');

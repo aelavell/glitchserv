@@ -1,14 +1,13 @@
-var User = require('../app/models/user');
-var Glitch = require('../app/models/glitch');
+var User = require('../models/user');
+var Glitch = require('../models/glitch');
 var util = require('util');
 var fs = require('fs');
 var mkpath = require('mkpath');
-var rootdir = require('../rootdir');
 var apns = require('./apns');
 var _ = require('underscore');
-var utility = require('../app/utility')
+var utility = require('../utility')
 
-extractTargetWizardIDs = function(req) {
+var extractTargetWizardIDs = function(req) {
   if (utility.exists(req.param('target_wizard'))) {
     return [ JSON.parse(req.param('target_wizard')) ];
   }
