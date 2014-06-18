@@ -1,5 +1,6 @@
 module.exports = function(passport) {
   var account = {};
+
   account.create =  function(req, res, next) {
     passport.authenticate('local-account-create', function(err, user, info) {
       if (err) { return next(err); }

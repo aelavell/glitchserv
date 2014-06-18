@@ -15,8 +15,6 @@ module.exports = function(app, passport) {
 
   var account = require('./api/account')(passport);
 
-  console.log(account);
-
   app.post('/api/v1/account/create.json', account.create);   
   app.post('/api/v1/account/login.json', account.login);   
   

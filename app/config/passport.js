@@ -17,33 +17,32 @@ module.exports = function(passport) {
     passReqToCallback : true
   },
   function(req, username, password, done) {
-    // User.findOne wont fire unless data is sent back
-    process.nextTick(function() {
-      var email = req.param('email');
-      User.findOne({ $or : [ { 'username' : username } , { 'email' :  email } ] }, function(err, user) {
-        // if there are any errors, return the error
-        if (err)
-          return done(err);
+    var email = req.param('email');
+    username = username.toLowerCase();
+    User.findOne({ $or : [ { 'username' : username } , { 'email' :  email } ] }, function(err, user) {
+      // if there are any errors, return the error
+      if (err)
+        return done(err);
 
-        // check to see if theres already a user with that email
-        if (user) {
-          if (user.username === username) {
-            return done(null, false, { 'status' : { 'name' : 'UsernameAlreadyRegisteredError', 'message' : 'That username is already taken.'}  });
-          }
-          else if (user.email === email) {
-            return done(null, false, { 'status' : { 'name' : 'EmailAlreadyRegisteredError', 'message' : 'That email is already taken.'}  });
-          }
-        } else {
-          // if there is no user with that email
-          // create the user
-          var newUser = new User();
+      // check to see if theres already a user with that email
+      if (user) {
+        if (user.username === username) {
+          return done(null, false, { 'status' : { 'name' : 'UsernameAlreadyRegisteredError', 'message' : 'That username is already taken.'}  });
+        }
+        else if (user.email === email) {
+          return done(null, false, { 'status' : { 'name' : 'EmailAlreadyRegisteredError', 'message' : 'That email is already taken.'}  });
+        }
+      } else {
+        // if there is no user with that email
+        // create the user
+        var newUser = new User();
 
-          // set the user's local credentials
-          newUser.email    = email;
-          newUser.password = newUser.generateHash(password);
-          newUser.username = username;
-          newUser.latitude = req.param('latitude');
-          newUser.longitude = req.param('longitude');
+        // set the user's local credentials
+        newUser.email    = email;
+        newUser.username = username;
+
+        newUser.password = newUser.generateHash(password, function(error, hash) {
+          newUser.password = hash;
 
           // save the user
           newUser.save(function(err) {
@@ -51,8 +50,8 @@ module.exports = function(passport) {
                 throw err;
             return done(null, newUser);
           });
-        }
-      });
+        });
+      }
     });
   }));
 
@@ -60,6 +59,7 @@ module.exports = function(passport) {
     passReqToCallback : true 
   },
   function(req, username, password, done) {
+    username = username.toLowerCase();
     User.findOne({ 'username' :  username }, function(err, user) {
       if (err)
           return done(err);
@@ -67,10 +67,14 @@ module.exports = function(passport) {
       if (!user)
         return done(null, false, { 'status' : { 'name' : 'NoUserError', 'message' : 'No user found.' } }); 
 
-      if (!user.validPassword(password))
-        return done(null, false, { 'status' : { 'name' : 'WrongPasswordError', 'message' : 'Wrong password.' } });
-
-      return done(null, user);
+      user.validPassword(password, function(error, isValid) {
+        if (isValid) {
+          return done(null, false, { 'status' : { 'name' : 'WrongPasswordError', 'message' : 'Wrong password.' } });
+        }
+        else {
+          return done(null, user);
+        }
+      });
     });
   }));
 };
