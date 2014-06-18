@@ -41,7 +41,7 @@ module.exports = function(passport) {
         newUser.email    = email;
         newUser.username = username;
 
-        newUser.password = newUser.generateHash(password, function(error, hash) {
+        newUser.generateHash(password, function(error, hash) {
           newUser.password = hash;
 
           // save the user
