@@ -1,45 +1,36 @@
-// server.js
-
-// set up ======================================================================
-// get all the tools we need
-var express  = require('express');
-var app      = express();
-var port     = process.env.PORT || 8080;
+var express = require('express');
+var port = process.env.PORT || 8080;
 var mongoose = require('mongoose');
-var passport = require('passport');
-var flash    = require('connect-flash');
-var path     = require('path');
-
+var mongoStore = require('connect-mongo')(express);
+var passport = require('passport'); 
+var flash = require('connect-flash');
+var path = require('path');
 var configDB = require('./config/database.js');
 
-// configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
+var app = express();
 
-require('./config/passport')(passport); // pass passport for configuration
+mongoose.connect(configDB.url);
 
-app.configure(function() {
+require('./config/passport')(passport); 
 
-  // set up our express application
-  app.use(express.logger('dev')); // log every request to the console
-  app.use(express.cookieParser()); // read cookies (needed for auth)
-  app.use(express.bodyParser()); // get information from html forms
-  app.use('/data', express.static(path.join(__dirname, 'data')));
-  app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.logger('dev')); 
+app.use(express.cookieParser()); 
+app.use(express.bodyParser()); 
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs'); // set up ejs for templating
+app.set('views', path.join(__dirname, 'views')); 
 
-  app.set('view engine', 'ejs'); // set up ejs for templating
-  app.set('views', path.join(__dirname, 'views')); 
+app.use(express.session({ 
+  store: new mongoStore({url: configDB.url}),
+  secret: process.env.SESSION_SECRET, 
+  cookie : { maxAge: 420 * 60000 } 
+})); 
 
-  // required for passport
-  app.use(express.session({ secret: 'yolomission420thepowerhouseoftruejustice' })); // session secret
-  app.use(passport.initialize());
-  app.use(passport.session()); // persistent login sessions
-  app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
-});
+require('./app/routes.js')(app, passport);
 
-// routes ======================================================================
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-
-// launch ======================================================================
 app.listen(port);
 console.log('The magic happens on port ' + port);
