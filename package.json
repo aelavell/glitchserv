@@ -11,10 +11,11 @@
     "bcrypt-nodejs": "latest",
     "mkpath": "0.1.0",
     "underscore": "1.6.0",
-    "backbone" : "1.1.2",
+    "backbone": "1.1.2",
     "crypto": "0.0.3",
     "apn": "^1.5.2",
-    "connect-mongo" : "0.3.x"
+    "connect-mongo": "0.3.x",
+    "validator": "^3.16.0"
   },
   "scripts": {
     "start": "node server.js"
