@@ -66,21 +66,21 @@ module.exports = function(passport) {
     });
   }
 
-  account.login = function(req, res, next) {
-    passport.authenticate('local-account-login', function(err, user, info) {
-      if (err) { return next(err); }
-      if (!user) { return res.json({ 'status' : info }); }
-      if (user) { 
-        req.logIn(user, function(err) {
-          if (err) { return next(err); }
+  account.login = function(req, res) {
+    validation.validateParametersExisting(req, ['username', 'password'], function(err) {
+      if (err) { return res.json(400, {'errors': [err]});}
 
-          return res.json({ 
-            'status' : { 'name' : 'Success', 'message' : 'Login successful.' },
-            '_id' : user._id
+      passport.authenticate('local-account-login', function(err, user, info) {
+        if (err) { return res.json(400, {'errors' : [err]}); }
+        if (!user) { return res.json(400, {'errors' : [info]}); }
+        if (user) { 
+          req.logIn(user, function(err) {
+            if (err) { return res.json(400, {'error' : [errorDefs.loginError]}); }
+            return res.json(200, {'message' : 'Login successful.'});
           });
-        });
-      }
-    })(req, res, next);
+        }
+      })(req, res);
+    });
   };
 
   return account;

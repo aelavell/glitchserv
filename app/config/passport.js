@@ -19,18 +19,13 @@ module.exports = function(passport) {
     passReqToCallback : true 
   },
   function(req, username, password, done) {
-    console.log('bloggin in');
     username = username.toLowerCase();
     User.findOne({ 'username' :  username }, function(err, user) {
-      if (err)
-          return done(err);
-
-      if (!user)
-        return done(null, false, { 'status' : { 'name' : 'NoUserError', 'message' : 'No user found.' } }); 
-
+      if (err) return done(errorDefs.databaseError);
+      if (!user) return done(null, false, errorDefs.invalidUsernameError); 
       user.validPassword(password, function(error, isValid) {
-        if (isValid) {
-          return done(null, false, { 'status' : { 'name' : 'WrongPasswordError', 'message' : 'Wrong password.' } });
+        if (!isValid) {
+          return done(null, false, errorDefs.invalidPasswordError);
         }
         else {
           return done(null, user);
